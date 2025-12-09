@@ -1,0 +1,58 @@
+name: Auto-Retrain & PR
+# Triggers manually (for testing) or via API
+on:
+  workflow_dispatch: 
+  repository_dispatch:
+    types: [trigger-retrain]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  train-model:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install scikit-learn joblib numpy
+
+      - name: Run Training Script
+        id: train
+        run: python src/train.py
+
+      - name: Create Pull Request
+        # Only run if the python script wrote "MODEL_CHANGED=true"
+        if: env.MODEL_CHANGED == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # 1. Setup Git User
+          git config --global user.name "Model-Bot"
+          git config --global user.email "bot@noreply.github.com"
+          
+          # 2. Create a fresh branch
+          BRANCH_NAME="auto-train-$(date +%s)"
+          git checkout -b $BRANCH_NAME
+          
+          # 3. Commit the new model file
+          git add model/v1.pkl
+          git commit -m "feat(ml): Improved model accuracy to ${{ env.ACCURACY }}"
+          git push origin $BRANCH_NAME
+          
+          # 4. Open the PR
+          gh pr create \
+            --title "🤖 ML Model Upgrade (Acc: ${{ env.ACCURACY }})" \
+            --body "The training pipeline found a better model. Please review and merge." \
+            --base main \
+            --head $BRANCH_NAME
