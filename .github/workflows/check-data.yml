@@ -112,10 +112,10 @@ jobs:
             
             ### Performance Metrics
             
-            | Metric | Old Model | New Model | Change |
-            |--------|-----------|-----------|--------|
-            | **Accuracy** | ${{ steps.model_check.outputs.old_accuracy }}% | ${{ steps.model_check.outputs.new_accuracy }}% | +${{ steps.model_check.outputs.new_accuracy - steps.model_check.outputs.old_accuracy }}% |
-            | **Version** | v${{ env.OLD_VERSION }} | v${{ steps.model_check.outputs.new_version }} | - |
+            | Metric | Old Model | New Model |
+            |--------|-----------|-----------|
+            | **Accuracy** | ${{ steps.model_check.outputs.old_accuracy }}% | ${{ steps.model_check.outputs.new_accuracy }}% |
+            | **Version** | v${{ env.OLD_VERSION }} | v${{ steps.model_check.outputs.new_version }} |
             
             ### Quality Gates Passed
             
