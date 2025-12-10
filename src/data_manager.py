@@ -87,7 +87,16 @@ def load_new_data():
     Load all new user data from the new_data directory
     Returns: X (features), y (targets) as numpy arrays
     """
+    # Check if running in GitHub Actions (no CSV files in new_data)
     csv_files = glob.glob(os.path.join(NEW_DATA_DIR, "*.csv"))
+    
+    # Fallback to sample data if no real data (for GitHub Actions testing)
+    if not csv_files:
+        sample_dir = os.path.join(DATA_DIR, "new_data_sample")
+        if os.path.exists(sample_dir):
+            csv_files = glob.glob(os.path.join(sample_dir, "*.csv"))
+            if csv_files:
+                print(f"[INFO] Using sample data for testing...")
     
     if not csv_files:
         print("No new data found")
