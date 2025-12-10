@@ -9,7 +9,7 @@ import glob
 import pandas as pd
 import numpy as np
 from datetime import datetime
-from config import DATA_COUNTER_FILE, NEW_DATA_DIR
+from config import DATA_COUNTER_FILE, NEW_DATA_DIR, DATA_DIR
 
 
 def get_data_count():
