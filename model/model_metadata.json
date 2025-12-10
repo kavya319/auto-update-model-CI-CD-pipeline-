@@ -1,3 +1,12 @@
 {
-    "models": []
+  "models": [
+    {
+      "version": 2,
+      "accuracy_score": 100.0,
+      "r2_score": 1.0,
+      "mse": 0.0,
+      "trained_at": "2025-12-10T20:11:19.564879",
+      "data_points": 5
+    }
+  ]
 }
