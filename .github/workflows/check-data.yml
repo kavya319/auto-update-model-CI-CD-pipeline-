@@ -80,8 +80,8 @@ jobs:
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
           
           git checkout -b $BRANCH_NAME
-          git add model/${{ steps.model_check.outputs.model_file }}
-          git add model/model_metadata.json
+          git add -f model/${{ steps.model_check.outputs.model_file }}
+          git add -f model/model_metadata.json
           git add data/new_data_counter.json
           
           # Create commit message
