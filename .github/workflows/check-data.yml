@@ -80,8 +80,8 @@ jobs:
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
           
           git checkout -b $BRANCH_NAME
-          git add -f model/${{ steps.model_check.outputs.model_file }}
-          git add -f model/model_metadata.json
+          git add model/${{ steps.model_check.outputs.model_file }}
+          git add model/model_metadata.json
           git add data/new_data_counter.json
           
           # Create commit message
@@ -112,10 +112,10 @@ jobs:
             
             ### Performance Metrics
             
-            | Metric | Old Model | New Model |
-            |--------|-----------|-----------|
-            | **Accuracy** | ${{ steps.model_check.outputs.old_accuracy }}% | ${{ steps.model_check.outputs.new_accuracy }}% |
-            | **Version** | v${{ env.OLD_VERSION }} | v${{ steps.model_check.outputs.new_version }} |
+            | Metric | Old Model | New Model | Change |
+            |--------|-----------|-----------|--------|
+            | **Accuracy** | ${{ steps.model_check.outputs.old_accuracy }}% | ${{ steps.model_check.outputs.new_accuracy }}% | +${{ steps.model_check.outputs.new_accuracy - steps.model_check.outputs.old_accuracy }}% |
+            | **Version** | v${{ env.OLD_VERSION }} | v${{ steps.model_check.outputs.new_version }} | - |
             
             ### Quality Gates Passed
             
