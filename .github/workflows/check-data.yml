@@ -86,7 +86,6 @@ jobs:
           gh pr create \
            --title "Model v${{ steps.model_check.outputs.new_version }} (Acc: ${{ steps.model_check.outputs.new_accuracy }}%)" \
             --body "Automated model update. New accuracy: ${{ steps.model_check.outputs.new_accuracy }}%" \
-            --label "model-update" \
             --base main
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
